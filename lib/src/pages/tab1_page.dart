@@ -9,10 +9,10 @@ class Tab1Page extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    final newsService = Provider.of<NewsService>(context);
+    final headlines = Provider.of<NewsService>(context).headlines;
 
     return Scaffold(
-      body: ListNews(news: newsService.headlines),
+      body: (headlines.isEmpty) ? const Center(child: CircularProgressIndicator(),) : ListNews(news: headlines),
 
     );
   }

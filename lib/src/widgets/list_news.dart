@@ -30,15 +30,53 @@ class _News extends StatelessWidget {
         _CardTopBar(news: news, index: index),
         _CardTitle(news),
         _CardImage(news),
-        //_CardBody(news),
-        //_CardButtons(),
+        _CardBody(news),
+        _CardButtons(),
         const SizedBox(height: 10),
         const Divider()
       ],
-
     );
   }
 }
+
+class _CardButtons extends StatelessWidget {
+  const _CardButtons({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            RawMaterialButton(
+              onPressed: () {},
+              fillColor: Colors.blue,
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(20)),
+              child: const Icon(Icons.star_border),
+            ),
+            const SizedBox(width: 10),
+          ]
+      ),
+    );
+  }
+}
+
+
+class _CardBody extends StatelessWidget {
+  final Article news;
+  const _CardBody(this.news);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 20),
+      child: Text(news.description != null ? news.description! : 'Description not available')
+    );
+  }
+}
+
+
 
 
 class _CardImage extends StatelessWidget {
@@ -49,7 +87,18 @@ class _CardImage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      child:   Text('No image'),
+      margin:  const EdgeInsets.only(top: 10, left: 10, right: 10),
+      child: ClipRRect(
+        borderRadius: BorderRadius.all(Radius.circular(30)),
+        child:  Container(
+          child:  news.urlToImage != null
+              ? FadeInImage(
+            placeholder: const AssetImage('assets/images/giphy.gif'),
+            image: NetworkImage(news.urlToImage!),
+          )
+              : const Image(image: AssetImage('assets/images/no-image.png'))
+        ),
+      ),
     );
   }
 }
