@@ -90,7 +90,7 @@ class Source {
   String toJson() => json.encode(toMap());
 
   factory Source.fromMap(Map<String, dynamic> json) => Source(
-    id: idValues.map[json["id"]]!,
+    id: idValues.map[json["id"]]!, //Null check operator used on a null value
     name: nameValues.map[json["name"]]!,
   );
 
