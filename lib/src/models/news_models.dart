@@ -54,7 +54,7 @@ class Article {
   String toJson() => json.encode(toMap());
 
   factory Article.fromMap(Map<String, dynamic> json) => Article(
-    source: Source.fromMap(json["source"]),
+    source: Source.fromJson(json["source"]),
     author: json["author"],
     title: json["title"],
     description: json["description"],
@@ -65,7 +65,7 @@ class Article {
   );
 
   Map<String, dynamic> toMap() => {
-    "source": source.toMap(),
+    "source": source.toJson(),
     "author": author,
     "title": title,
     "description": description,
@@ -76,54 +76,23 @@ class Article {
   };
 }
 
+
 class Source {
-  Id id;
-  Name name;
+  String id;
+  String name;
 
   Source({
     required this.id,
     required this.name,
   });
 
-  factory Source.fromJson(String str) => Source.fromMap(json.decode(str));
-
-  String toJson() => json.encode(toMap());
-
-  factory Source.fromMap(Map<String, dynamic> json) => Source(
-    id: idValues.map[json["id"]]!, //Null check operator used on a null value
-    name: nameValues.map[json["name"]]!,
+  factory Source.fromJson(Map<String, dynamic> json) => Source(
+    id: json["id"] == null ? null : json["id"],
+    name: json["name"],
   );
 
-  Map<String, dynamic> toMap() => {
-    "id": idValues.reverse[id],
-    "name": nameValues.reverse[name],
+  Map<String, dynamic> toJson() => {
+    "id": id == null ? null : id,
+    "name": name,
   };
-}
-
-enum Id {
-  GOOGLE_NEWS
-}
-
-final idValues = EnumValues({
-  "google-news": Id.GOOGLE_NEWS
-});
-
-enum Name {
-  GOOGLE_NEWS
-}
-
-final nameValues = EnumValues({
-  "Google News": Name.GOOGLE_NEWS
-});
-
-class EnumValues<T> {
-  Map<String, T> map;
-  late Map<T, String> reverseMap;
-
-  EnumValues(this.map);
-
-  Map<T, String> get reverse {
-    reverseMap = map.map((k, v) => MapEntry(v, k));
-    return reverseMap;
-  }
 }
