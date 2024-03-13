@@ -10,13 +10,13 @@ final _APIKEY = '244540bb56ea453da0b3aae761e1e344';
 class NewsService with ChangeNotifier {
   List<Article> headlines = [];
 
-  List<Category> categories = [
-    Category(Icons.business, 'business'),
-    Category(Icons.sports, 'sports'),
-    Category(Icons.science, 'science'),
-    Category(FontAwesomeIcons.memory, 'technology'),
-    Category(FontAwesomeIcons.tv, 'entertainment'),
-    Category(FontAwesomeIcons.headSideVirus, 'health'),
+  List<CategoryNews> categories = [
+    CategoryNews(Icons.business, 'business'),
+    CategoryNews(Icons.sports, 'sports'),
+    CategoryNews(Icons.science, 'science'),
+    CategoryNews(FontAwesomeIcons.memory, 'technology'),
+    CategoryNews(FontAwesomeIcons.tv, 'entertainment'),
+    CategoryNews(FontAwesomeIcons.headSideVirus, 'health'),
   ];
 
   NewsService() {
