@@ -9,6 +9,7 @@ final _APIKEY = '244540bb56ea453da0b3aae761e1e344';
 
 class NewsService with ChangeNotifier {
   List<Article> headlines = [];
+  String selectedCategory = 'business';
 
   List<CategoryNews> categories = [
     CategoryNews(Icons.business, 'business'),
@@ -19,9 +20,26 @@ class NewsService with ChangeNotifier {
     CategoryNews(FontAwesomeIcons.headSideVirus, 'health'),
   ];
 
+  Map<String, List<Article>> categoryArticles = {};
+
+
   NewsService() {
-    this.getTopHeadlines();
+    getTopHeadlines();
+
+    for (var item in categories) {
+      categoryArticles[item.name] = [];
+
+    }
   }
+
+  get getSelectedCategory => selectedCategory;
+
+  set setSelectedCategory(String value) {
+    selectedCategory = value;
+    getArticlesByCategory(value);
+    notifyListeners();
+  }
+
 
   getTopHeadlines() async {
     final url = '$_URL_NEWS/top-headlines?apiKey=$_APIKEY&country=mx';
@@ -31,6 +49,20 @@ class NewsService with ChangeNotifier {
 
     headlines.addAll(newsResponse.articles);
     print('Headlines: ${headlines.length}');//This is for debugging
+    notifyListeners();
+  }
+
+  getArticlesByCategory (String category) async {
+    if (categoryArticles[category]!.isNotEmpty) {
+      return categoryArticles[category];
+    }
+    final url = '$_URL_NEWS/top-headlines?apiKey=$_APIKEY&country=mx&category=$category';
+    final answer = await http.get(Uri.parse(url));
+
+    final newsResponse = NewResponse.fromJson(answer.body);
+
+    categoryArticles[category]?.addAll(newsResponse.articles);
+
     notifyListeners();
   }
 }

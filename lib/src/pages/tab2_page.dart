@@ -31,30 +31,24 @@ class _CategoryList extends StatelessWidget {
   Widget build(BuildContext context) {
 
     final categories = Provider.of<NewsService>(context).categories;
+    final newsService = Provider.of<NewsService>(context);
 
     return  ListView.builder(
-      physics: BouncingScrollPhysics(),
+      physics: const BouncingScrollPhysics(),
         scrollDirection: Axis.horizontal,
         itemCount: categories.length,
         itemBuilder: (BuildContext context, int index) {
 
         final categoryName = categories[index].name;
 
-          return GestureDetector(
-            onTap: () {
-              print(categories[index].name);
-            },
-            child: Container(
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Column(
-                  children: [
-                    _CategoryButton(categories[index]),
-                    Text('${categoryName[0].toUpperCase()}${categoryName.substring(1)}')
-                  ],
+          return Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Column(
+                    children: [
+                      _CategoryButton(categories[index]),
+                      Text('${categoryName[0].toUpperCase()}${categoryName.substring(1)}')
+                    ],
                 ),
-              ),
-            ),
           );
         },
     );
@@ -69,16 +63,30 @@ class _CategoryButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: 40,
-      height: 40,
-      margin: const EdgeInsets.symmetric(horizontal: 10),
-      decoration: BoxDecoration(
-        shape: BoxShape.circle,
-        color: Colors.black12
-      ),
-      child:  Center(
-        child: Icon(category.icon, color: Colors.black54,),
+
+    final newsService = Provider.of<NewsService>(context);
+
+    return GestureDetector(
+      onTap: () {
+        print(category.name);
+        final newsService = Provider.of<NewsService>(context, listen: false);
+        newsService.selectedCategory = category.name;
+      },
+      child: Container(
+        width: 40,
+        height: 40,
+        margin: const EdgeInsets.symmetric(horizontal: 10),
+        decoration: BoxDecoration(
+          shape: BoxShape.circle,
+          color: Colors.black12
+        ),
+        child: Icon(
+          category.icon,
+          color: (newsService.selectedCategory == category.name)?
+          Colors.white
+          : Colors.black26
+
+        ),
       ),
     );
   }
